@@ -186,7 +186,23 @@ function setIcon(context, icon) {
 }
 
 function addHabbit(event) {
-
+  event.preventDefault();
+	const data = validateAndGetFormData(event.target, ['name', 'icon', 'target']);
+	if (!data) {
+		return;
+	}
+	const maxId = habbits.reduce((acc, habbit) => acc > habbit.id ? acc : habbit.id, 0);
+	habbits.push({
+		id: maxId + 1,
+		name: data.name,
+		target: data.target,
+		icon: data.icon,
+		days: []
+	});
+	resetForm(event.target, ['name', 'target']);
+	togglePopup();
+	saveData();
+	rerender(maxId + 1);
 }
   
 /*init*/
